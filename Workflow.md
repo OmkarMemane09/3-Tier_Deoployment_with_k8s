@@ -232,7 +232,7 @@ spec:
     - protocol: TCP
       port: 8080
       targetPort: 8080
-  type: NodePort
+  type: LoadBalancer
 ```
 Save & exit:
 CTRL + O, ENTER, CTRL + X
@@ -257,3 +257,170 @@ Check pod details:
 ```bash
 kubectl describe pod backend-pod
 ```
+## 1️6️. Configure Frontend Environment (.env)
+
+Navigate to frontend folder:
+
+```bash
+cd EasyCRUD/frontend
+```
+Create the environment file:
+```bash
+nano .env
+```
+Paste your backend endpoint (from kubectl get svc):
+```bash
+VITE_API_BASE_URL=http://<LOADBALANCER-ENDPOINT>:8080
+```
+**Make sure the endpoint is from the LoadBalancer service of the backend.**
+
+Save & exit:
+CTRL + O, ENTER, CTRL + X
+
+### 1️7️. Create Frontend Dockerfile
+Create Dockerfile for your React/Vite frontend:
+
+```bash
+nano dockerfile
+```
+Paste the following:
+
+```bash
+FROM node:24-alpine
+COPY . /opt
+WORKDIR /opt
+RUN npm install && npm run build
+RUN apk update && apk add apache2
+RUN cp -rf dist/* /var/www/localhost/htdocs/
+EXPOSE 80
+CMD ["httpd", "-D", "FOREGROUND"]
+```
+Save & exit.
+
+### 1️8️. Build Frontend Docker Image
+```bash
+docker build . -t frontend-app
+```
+### 1️9️. Run Frontend Container (Local Test)
+```bash
+docker run -d -p 80:80 frontend-app
+```
+
+### 2️0️. Tag Frontend Image for Docker Hub
+```bash
+docker tag frontend-app <your-dockerhub-username>/frontend-app:latest
+```
+### 2️1️. Push Frontend Image to Docker Hub
+```bash
+docker push <your-dockerhub-username>/frontend-app:latest
+```
+
+## 2️⃣2️⃣. Create Frontend Deployment (Kubernetes)
+
+```bash
+nano frontend-deploy.yaml
+```
+Paste the following:
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deploy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      name: frontend
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend-container
+          image: omkarmemane9/frontend:v1   # Replace with your Docker Hub image
+          ports:
+            - containerPort: 80
+```
+Save & exit.
+Apply the deployment:
+```bash
+kubectl apply -f frontend-deploy.yaml
+```
+Check deployment status:
+```bash
+kubectl get deploy
+```
+```bash
+kubectl get pods
+```
+### 2️3️. Create Frontend Service (LoadBalancer)
+Create the service file:
+```bash
+nano frontend-svc.yaml
+```
+Paste the following:
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-svc
+spec:
+  selector:
+    app: frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
+```
+Save & exit.
+
+Apply service manifest:
+```bash
+kubectl apply -f frontend-svc.yaml
+```
+
+# 24. Access the Application Through LoadBalancer
+
+Once the **frontend-svc** is created, retrieve the LoadBalancer endpoint:
+
+```bash
+kubectl get svc frontend-svc
+```
+You will see an output similar to:
+
+```pgsql
+
+NAME            TYPE           CLUSTER-IP      EXTERNAL-IP                          PORT(S)        AGE
+frontend-svc    LoadBalancer   10.0.121.45     a1b2c3d4e5f6-123456.elb.amazonaws.com 80:30080/TCP   2m
+```
+Copy the EXTERNAL-IP / LoadBalancer URL.
+
+Open it in your browser:
+```bash
+http://<EXTERNAL-IP>
+```
+If everything is configured correctly, you will see the fully deployed web application frontend, communicating with the backend running inside your AWS EKS cluster.
+
+## 🎉 Deployment Successful!
+
+You have now successfully deployed a full-stack application using:
+
+AWS EC2
+
+AWS EKS
+
+Docker
+
+Kubernetes Deployments, Pods & Services
+
+LoadBalancer for global frontend access
+
+MariaDB / RDS backend
+
+Docker Hub image storage
+
+Your application is now live and production-ready.
