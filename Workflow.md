@@ -1,6 +1,8 @@
 # Deploying a Full-Stack Web App Using AWS EC2, AWS EKS, Docker & MariaDB  
 *A Complete End-to-End Deployment Guide*
 
+<img width="1000" height="559" alt="image" src="https://github.com/user-attachments/assets/ef46f04f-1425-4737-8c7b-7a6b8b962bc9" />
+
 ---
 
 ##  Overview
