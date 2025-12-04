@@ -1,7 +1,6 @@
-### step1: update application.properties
-### step2: build docker image
-### step3: push image to dockerhub
-### step4: modify backend.yaml - change image name
-### step5: apply backend.yaml and svc.yaml
-### step 6: copy backend svc link and paste to frontend/.env file
-
+1️⃣ Update backend `application.properties` → add RDS details  
+2️⃣ Build & push backend Docker image → Docker Hub  
+3️⃣ Update `backend.yaml` → set new image  
+4️⃣ Apply `backend.yaml` + `backend-svc.yaml`  
+5️⃣ Copy backend LB URL → paste into `frontend/.env`  
+6️⃣ Build & push frontend image → update `frontend.yaml` → apply  
