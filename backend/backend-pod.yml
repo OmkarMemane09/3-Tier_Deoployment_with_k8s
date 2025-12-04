@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: backend
+  name: backend-pod
   labels:
     app: backend
 spec:
   containers:
-    - name: backend
-      image: abhipraydh96/backend:latest
-      ports:
-        - containerPort: 80
+  - name: backend-container
+    image: omkarmemane09/backend:v1 ## Replace with your backend image
+    ports:
+    - containerPort: 8080
