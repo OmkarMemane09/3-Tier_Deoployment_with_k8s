@@ -1,4 +1,5 @@
-# 🚀 Full-Stack Application Deployment on AWS (EC2 + EKS + RDS + Docker + Kubernetes)
+#  Full-Stack Application Deployment on AWS
+## **(EC2 + EKS + RDS + Docker + Kubernetes)**
 
 This document provides a **high-level technical overview** of deploying a production-ready full-stack application using **AWS Cloud, Docker, and Kubernetes**.
 
