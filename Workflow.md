@@ -51,7 +51,7 @@ This includes:
 ```bash
 kubectl get nodes
 ```
-3️⃣ Install Docker on EC2
+### 3️ Install Docker on EC2
 ```bash
 apt install docker.io -y
 ```
@@ -314,7 +314,7 @@ docker tag frontend-app <your-dockerhub-username>/frontend-app:latest
 docker push <your-dockerhub-username>/frontend-app:latest
 ```
 
-## 2️⃣2️⃣. Create Frontend Deployment (Kubernetes)
+### 2️2️. Create Frontend Deployment (Kubernetes)
 
 ```bash
 nano frontend-deploy.yaml
