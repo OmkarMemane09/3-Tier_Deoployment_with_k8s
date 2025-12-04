@@ -29,14 +29,14 @@ apt update -y
 ```
 ### 2️ Connect EC2 With AWS EKS Cluster
 
-Follow your full setup guide:
+Follow my full setup guide:
 
 #### EKS + EC2 Setup Guide
 ```bash
 https://github.com/OmkarMemane09/DevOps_by_OmkarMemane09/blob/main/Kubernetes/2.k8s-EKS-Setup-with-EC2.md
 ```
 
-> This includes:
+This includes:
 
 > Installing AWS CLI
 
@@ -113,7 +113,7 @@ nano application.properties
 ```
 Update the following values:
 
-Replace localhost with your RDS Endpoint or DB container IP
+Replace localhost with your RDS Endpoint 
 
 Set correct DB username
 
@@ -133,15 +133,12 @@ CTRL + O, ENTER, then CTRL + X
 
 Navigate to backend folder if not already there:
 
-```bash
-cd EasyCRUD/backend
-```
 Create Dockerfile:
 
 ```bash
 nano dockerfile
 ```
-Dockerfile content:
+**Dockerfile content:**
 
 ```bash
 FROM maven:3.8.3-openjdk-17
@@ -270,7 +267,7 @@ Create the environment file:
 ```bash
 nano .env
 ```
-Paste your backend endpoint (from kubectl get svc):
+Paste your backend endpoint (from **kubectl get svc**):
 ```bash
 VITE_API_BASE_URL=http://<LOADBALANCER-ENDPOINT>:8080
 ```
@@ -411,18 +408,18 @@ If everything is configured correctly, you will see the fully deployed web appli
 
 You have now successfully deployed a full-stack application using:
 
-AWS EC2
+- AWS EC2
 
-AWS EKS
+- AWS EKS
 
-Docker
+- Docker
 
-Kubernetes Deployments, Pods & Services
+- Kubernetes Deployments, Pods & Services
 
-LoadBalancer for global frontend access
+- LoadBalancer for global frontend access
 
-MariaDB / RDS backend
+- MariaDB / RDS backend
 
-Docker Hub image storage
+- Docker Hub image storage
 
-Your application is now live and production-ready.
+- Your application is now live and production-ready.
